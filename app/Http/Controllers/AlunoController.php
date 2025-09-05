@@ -21,7 +21,7 @@ class AlunoController extends Controller
      */
     public function create()
     {
-        return view ("aluno.form");
+        return view("aluno.form");
     }
 
 
@@ -29,19 +29,17 @@ class AlunoController extends Controller
     {
         //dd($request->all());
 
-        $request ->validate([
-            'nome'=>'required',
-            'cpf'=>'required',
-        ],
-        [
-            'nome.required'=> 'O :attribute é obrigatório',
-            'cpf.required'=> 'O :attribute é obrigatório',
-        ]);
-
-        Aluno::create($request->all());
-
-        return redirect ('aluno');
-
+        $request->validate(
+            [
+                'nome' => 'required',
+                'cpf' => 'required',
+            ],
+            [
+                'nome.required' => 'O :attribute é obrigatório',
+                'cpf.required' => 'O :attribute é obrigatório',
+            ]
+        );
+        return redirect('aluno');
     }
 
 
@@ -55,7 +53,9 @@ class AlunoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dado = Aluno::findOrFail($id);
+        //dd($id);
+        return view('aluno.form', ['dado' => $dado]);
     }
 
     /**
@@ -63,7 +63,21 @@ class AlunoController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+       // dd($request->all());
+        $request->validate(
+            [
+                'nome' => 'required',
+                'cpf' => 'required',
+            ],
+            [
+                'nome.required' => 'O :attribute é obrigatório',
+                'cpf.required' => 'O :attribute é obrigatório',
+            ]
+        );
+
+        Aluno::updateOrCreate(['id' => $id], $request->all());
+
+        return redirect('aluno');
     }
 
     /**
@@ -71,15 +85,15 @@ class AlunoController extends Controller
      */
     public function destroy(string $id)
     {
-        $dado = Aluno:: findOrFail($id);
+        $dado = Aluno::findOrFail($id);
         $dado->delete();
-        return redirect ('aluno');
+        return redirect('aluno');
     }
 
     public function search(Request $request)
     {
-        if (!empty($request->valor)){
-            $dados= Aluno::where(
+        if (!empty($request->valor)) {
+            $dados = Aluno::where(
                 $request->tipo,
                 'like',
                 "%$request->valor%"
@@ -90,5 +104,4 @@ class AlunoController extends Controller
 
         return view('aluno.list', ["dados" => $dados]);
     }
-
 }
