@@ -1,4 +1,4 @@
-@extends ('base')
+@extends('base')
 @section('titulo', 'Formulário Aluno')
 @section('conteudo')
 
@@ -8,11 +8,9 @@
         } else {
             $action = route('aluno.store');
         }
-
     @endphp
 
-
-    <form action="{{ $action }}" method='post'>
+    <form action="{{ $action }}" method="post">
         @csrf
 
         @if (!empty($dado->id))
@@ -23,23 +21,22 @@
 
         <div class="row">
             <div class="col">
-                <label for="">Nome:</label>
-                <input type="text" name="nome" value="{{ old('id', $dado->nome ?? '') }}">
+                <label for="">Nome</label>
+                <input type="text" name="nome" value="{{ old('nome', $dado->nome ?? '') }}">
             </div>
             <div class="col">
-                <label for="">Telefone:</label>
-                <input type="text" name="telefone" value="{{ old('id', $dado->telefone ?? '') }}">
+                <label for="">CPF</label>
+                <input type="text" name="cpf" value="{{ old('cpf', $dado->cpf ?? '') }}">
             </div>
             <div class="col">
-                <label for="">CPF:</label>
-                <input type="text" name="cpf" value="{{ old('id', $dado->cpf ?? '') }}">
+                <label for="">Telefone</label>
+                <input type="text" name="telefone" value="{{ old('telefone', $dado->telefone ?? '') }}">
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <button class="btn btn-primary " type="submit"
-                    class="btn">{{ !empty($dado->id) ? 'Atualizar' : 'Salvar' }}</button>
-                <a class="btn btn-primary" type="button" href="{{ url('aluno') }}">Voltar</a>
+                <button type="submit" class="btn btn-success">{{ !empty($dado->id) ? 'Atualizar' : 'Salvar' }}</button>
+                <a href="{{ url('aluno') }}" class="btn btn-primary">Voltar</a>
             </div>
         </div>
     </form>
